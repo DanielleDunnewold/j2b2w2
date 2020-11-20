@@ -45,6 +45,15 @@ public class Main extends JFrame implements ActionListener {
     }
 
 
+    /** Pauzeer gedurende x millisecondes (gekopieerd van de onderwijsonline)*/
+    public void pauzeer(int msec) {
+        try {
+            Thread.sleep(msec);
+        } catch (InterruptedException e) {
+            System.out.println("Pauze interruptie");
+        }
+    }
+
     private void createseed(int[][] array) {
         int min=0;
         int max=1;
@@ -62,7 +71,10 @@ public class Main extends JFrame implements ActionListener {
             //checks if the cell is alive
             if(array[i][o]==1) {
                 if(score<2||score>3)        // checks if it has less than 2 living neighboors or more than 3
-                { array[i][o] = 0;}        // and than dies
+                { array[i][o] = 0; }     // and than dies
+                if(score==2||score==3){ //checks is it has 2 or 3 living neighboors and than stays alive
+                    array[i][o]=1;
+                }
             }
             if(array[i][o]==0){           // checks if the cell is death
                 if(score==3) {                   // checks if it has exactly 3 neighboors
@@ -79,21 +91,23 @@ public class Main extends JFrame implements ActionListener {
             r++;
             checkstatus(array);
             Graphics paper = panel.getGraphics();
+            paper.clearRect(0,0,500,500);
             int x=5;
             int y=5;
             for(int i=1; i<array.length-1;i++){
-                y=+5;
+                y+=11;
+                x=5;
                 for(int o=1;o<array.length-1;o++){
-                    x=+5;
+                    x+=11;
                     if(array[i][o]==1){
-                        paper.fillRect(x,y,2,2);
+                        paper.fillRect(x,y,10,10);
                     }
                     if(array[i][o]==0){
-                        paper.drawRect(x,y,2,2);
+                        paper.drawRect(x,y,10,10);
                     }
 
                 }}
-        }
+                pauzeer(500);}
     }}
 
 
